@@ -15,84 +15,39 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    
+    - uses: actions/checkout@v2
+
+    - name: Set up JDK 1.8
+      uses: actions/setup-java@v1
+      with:
+        java-version: 1.8
+
+    - name: Build with Maven
+      run: mvn -B package --file pom.xml
+
+    # Extra step requied for private beta .. 
+    - name: Checkout the action from a private repository
+      uses: actions/checkout@v2
+      with:
+        repository: aws-actions/codeguru-reviewer
+        ref: refs/heads/main
+        ssh-key: ${{ secrets.SSH_KEY }}
+        path: ./.github/actions/codeguru-reviewer
+
     - name: Configure AWS credentials
       uses: aws-actions/configure-aws-credentials@v1
       with:
         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws-region: us-west-2 #AWS region where you want to use CodeGuru
-    
-    - uses: actions/checkout@v2
+
+    - name: AWS CodeGuru Reviewer Security Scanner
+      uses: ./.github/actions/codeguru-reviewer 
       with:
-        repository: vijejain/dg-demo
-        ref: ${{ github.base_ref }}
-        fetch-depth: 2
-        path: ./  
-        
-    - name: Copy files to s3
-      run: |
-        zip -r full_repo ./
-        aws s3 sync . s3://codeguru-reviewer-a1e97c37-5299-41a6-8655-6d7a82dc3033/ci-cd/
-        
-#     - run: | 
+        src-root: src/main/java # Java source code root
+        build-root: target # build artifact(s) directory
 
-#         s3 cp full_repo.zip s3://codeguru-reviewer-a1e97c37-5299-41a6-8655-6d7a82dc3033/ci-cd/
-        
-# Below zips the complete source code with .git
-#     - run: | 
-#         ls -a ./
-#         zip -r full_repo ./
-#         less -f -r full_repo.zip
-
-
-
-#     - uses: actions/checkout@v2
-#       with:
-#         fetch-depth: 0
-    
-    - name: Dump Github content
-      env:
-        GITHUB_CONTEXT: ${{ toJSON(github) }}
-      run: echo "$GITHUB_CONTEXT"
-
-#     - run: git log
-          
-#     - name: Shallow clone
-#       run: | 
-#         git clone https://github.com/vijejain/dg-demo.git --branch pr-test --depth 2 clone-repo
-#         ls -a ./clone-repo
-#       id: shallow_clone
-      
-    - uses: actions/github-script@v3
+    - name: Upload review result
+      uses: github/codeql-action/upload-sarif@v1
       with:
-        script: console.log(context)
-    
-#     - name: Set up JDK 1.8
-#       uses: actions/setup-java@v1
-#       with:
-#         java-version: 1.8
-#     - name: Build with Maven
-#       run: mvn -B package --file pom.xml
-        
-    # Extra step requied for private beta
-#     - name: Checkout the action from a private repository
-#       uses: actions/checkout@v2
-#       with:
-#         repository: aws-actions/codeguru-reviewer
-#         ref: refs/heads/main
-#         ssh-key: ${{ secrets.SSH_KEY }}
-#         path: ./.github/actions/codeguru-reviewer
-
-
-            
-#     - name: AWS CodeGuru Reviewer Security Scanner
-#       uses: ./.github/actions/codeguru-reviewer
-#       with:
-#         src-root: src/main/java # Java source code root
-#         build-root: target # build artifact(s) directory
-
-#     - name: Upload review result
-#       uses: github/codeql-action/upload-sarif@v1
-#       with:
-#         sarif_file: codeguru-results.sarif.json
+        sarif_file: codeguru-results.sarif.json
