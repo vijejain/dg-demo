@@ -22,5 +22,6 @@ public class App
     {
         Cipher c = Cipher.getInstance(s);
         Cipher c1 = Cipher.getInstance(s);
+        Cipher c2 = Cipher.getInstance(s);
     }
 }
