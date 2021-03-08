@@ -15,11 +15,12 @@ public class App
     }
 
     private void foo() throws Exception {
-        bar("DES"); // this should create a warning
+        bar("DES", "EFG"); // this should create a warning
     }
 
-    private void bar(String s) throws Exception
+    private void bar(String s, String j) throws Exception
     {
         Cipher c = Cipher.getInstance(s);
+        Cipher c2 = Cipher.getInstance(s);
     }
 }
