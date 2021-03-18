@@ -12,7 +12,6 @@ public class App
     public static void main( String[] args )
     {
         System.out.println( "Hello World!" );
-        Cipher x = Cipher.getInstance("TESx");
     }
 
     private void foo() throws Exception {
