@@ -17,6 +17,7 @@ public class App
     private void foo() throws Exception {
         bar("DES"); // this should create a warning
         Cipher c = Cipher.getInstance("TEST");
+        Cipher d = Cipher.getInstance("TESTd");
     }
 
     private void bar(String s) throws Exception
