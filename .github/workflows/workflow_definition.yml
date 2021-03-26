@@ -49,7 +49,6 @@ jobs:
         repository: vdinesh90/codeguru-reviewer
         ref: refs/heads/main
 #         ssh-key: ${{ secrets.SSH_KEY }}
-        path: vdinesh90/codeguru-reviewer
 
     - name: Configure AWS credentials
       uses: aws-actions/configure-aws-credentials@v1
@@ -65,7 +64,7 @@ jobs:
 #         build-root: target # build artifact(s) directory
 
     - name: AWS CodeGuru Reviewer Security Scanner
-      uses: ./vdinesh90/codeguru-reviewer
+      uses: ./
       with:
         src-root: src/main/java # Java source code root
         build-root: target # build artifact(s) directory
