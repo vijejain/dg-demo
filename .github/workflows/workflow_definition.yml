@@ -34,13 +34,22 @@ jobs:
       run: mvn -B package --file pom.xml
 
     # Extra step requied for private beta .. 
+#     - name: Checkout the action from a private repository
+#       uses: actions/checkout@v2
+#       with:
+#         repository: aws-actions/codeguru-reviewer
+#         ref: refs/heads/main
+#         ssh-key: ${{ secrets.SSH_KEY }}
+#         path: ./.github/actions/codeguru-reviewer
+        
+    # Extra step requied for private beta .. 
     - name: Checkout the action from a private repository
       uses: actions/checkout@v2
       with:
-        repository: aws-actions/codeguru-reviewer
+        repository: vdinesh90/codeguru-reviewer
         ref: refs/heads/main
-        ssh-key: ${{ secrets.SSH_KEY }}
-        path: ./.github/actions/codeguru-reviewer
+#         ssh-key: ${{ secrets.SSH_KEY }}
+        path: vdinesh90/codeguru-reviewer
 
     - name: Configure AWS credentials
       uses: aws-actions/configure-aws-credentials@v1
@@ -49,8 +58,14 @@ jobs:
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws-region: us-west-2 #AWS region where you want to use CodeGuru
 
+#     - name: AWS CodeGuru Reviewer Security Scanner
+#       uses: ./.github/actions/codeguru-reviewer 
+#       with:
+#         src-root: src/main/java # Java source code root
+#         build-root: target # build artifact(s) directory
+
     - name: AWS CodeGuru Reviewer Security Scanner
-      uses: ./.github/actions/codeguru-reviewer 
+      uses: vdinesh90/codeguru-reviewer
       with:
         src-root: src/main/java # Java source code root
         build-root: target # build artifact(s) directory
