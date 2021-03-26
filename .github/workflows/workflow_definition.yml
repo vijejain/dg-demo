@@ -65,7 +65,7 @@ jobs:
 #         build-root: target # build artifact(s) directory
 
     - name: AWS CodeGuru Reviewer Security Scanner
-      uses: vdinesh90/codeguru-reviewer
+      uses: ./vdinesh90/codeguru-reviewer
       with:
         src-root: src/main/java # Java source code root
         build-root: target # build artifact(s) directory
