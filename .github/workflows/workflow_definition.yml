@@ -47,7 +47,7 @@ jobs:
       uses: actions/checkout@v2
       with:
         repository: vdinesh90/codeguru-reviewer
-        ref: refs/heads/main
+        ref: 5a952e60aba3954519310f604ab5eaafdbd403c1
 #         ssh-key: ${{ secrets.SSH_KEY_TEST }}
         token: ${{ secrets.PAT }}
         
@@ -68,8 +68,9 @@ jobs:
     - name: AWS CodeGuru Reviewer Security Scanner
       uses: ./
       with:
-        src-root: src/main/java # Java source code root
+        src-root: . # Java source code root
         build-root: target # build artifact(s) directory
+        
 
     - name: Upload review result
       uses: github/codeql-action/upload-sarif@v1
