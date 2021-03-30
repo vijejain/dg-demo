@@ -34,13 +34,13 @@ jobs:
       run: mvn -B package --file pom.xml
 
     # Extra step requied for private beta .. 
-    - name: Checkout the action from a private repository
-      uses: actions/checkout@v2
-      with:
-        repository: aws-actions/codeguru-reviewer
-        ref: refs/heads/main
-        ssh-key: ${{ secrets.SSH_KEY }}
-        path: ./.github/actions/codeguru-reviewer
+#     - name: Checkout the action from a private repository
+#       uses: actions/checkout@v2
+#       with:
+#         repository: aws-actions/codeguru-reviewer
+#         ref: refs/heads/main
+#         ssh-key: ${{ secrets.SSH_KEY }}
+#         path: ./.github/actions/codeguru-reviewer
         
     # Extra step requied for private beta .. 
     - name: Checkout the action from a private repository
