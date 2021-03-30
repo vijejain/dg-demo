@@ -41,7 +41,7 @@ jobs:
 #         ref: refs/heads/main
 #         ssh-key: ${{ secrets.SSH_KEY }}
 #         path: ./.github/actions/codeguru-reviewer
-        
+       
     # Extra step requied for private beta .. 
     - name: Checkout the action from a private repository
       uses: actions/checkout@v2
@@ -64,7 +64,12 @@ jobs:
 #       with:
 #         src-root: src/main/java # Java source code root
 #         build-root: target # build artifact(s) directory
-
+    - name: ECR login
+      uses: aws-actions/amazon-ecr-login@v1
+      
+    - name: Docker pull
+      run: docker pull 758588794794.dkr.ecr.us-west-2.amazonaws.com/cg-private:latest 
+    
     - name: AWS CodeGuru Reviewer Security Scanner
       uses: ./
       with:
