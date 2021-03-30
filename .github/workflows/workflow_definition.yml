@@ -47,7 +47,7 @@ jobs:
       uses: actions/checkout@v2
       with:
         repository: vdinesh90/codeguru-reviewer
-        ref: 5a952e60aba3954519310f604ab5eaafdbd403c1
+        ref: main
 #         ssh-key: ${{ secrets.SSH_KEY_TEST }}
         token: ${{ secrets.PAT }}
         
